@@ -232,17 +232,34 @@
               <tbody class="divide-y divide-gray-300">
                 <tr
                   @click="editClient(client.attendeeID)"
-                  v-for="client in attendeeData"
+                  v-for="client in eventsClient"
                   :key="client._id"
                 >
                   <td
                     class="p-2 text-left"
-                  >{{ client.attendeeFirstName + " " + client.attendeeLastName }}</td>
+                  >{{ client.attendeeName }}</td>
                   <td class="p-2 text-left">{{ client.attendeeCity }}</td>
                   <td class="p-2 text-left">{{ client.attendeePhoneNumber }}</td>
                 </tr>
               </tbody>
             </table>
+          </div>
+          <div class="flex flex-col">
+            <label class="typo__label">Select Client to be Deleted</label>
+            <Multiselect
+              class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+              v-model="clientsChosen"
+              :options="attendeeData"
+              :multiple="true" 
+              label="attendeeName" 
+            ></Multiselect>
+            <div class="flex justify-between">
+              <button
+                @click="deleteFromEvent"
+                type="submit"
+                class="mt-5 bg-red-700 text-white rounded"
+              >Delete Client from Events</button>
+            </div>
           </div>
         </div>
       </form>
@@ -252,16 +269,20 @@
 <script>
 import useVuelidate from "@vuelidate/core";
 import { required, email, alpha, numeric } from "@vuelidate/validators";
+import Multiselect from "vue-multiselect";
 import axios from "axios";
 import { DateTime } from "luxon";
 
 export default {
   props: ["id"],
+  components: { Multiselect },
   setup() {
     return { v$: useVuelidate({ $autoDirty: true }) };
   },
   data() {
     return {
+      clientsChosen: [],
+      clientData: [],
       attendeeIDs: [],
       attendeeData: [],
       checkedServices: [],
@@ -278,6 +299,7 @@ export default {
         },
         description: "",
       },
+      eventsClient: [],
     };
   },
   beforeMount() {
@@ -304,8 +326,19 @@ export default {
               let data = resp.data[0];
               this.attendeeData.push({
                 attendeeID: this.attendeeIDs[i],
-                attendeeFirstName: data.firstName,
-                attendeeLastName: data.lastName,
+                attendeeName: data.firstName + " " + data.lastName,
+                attendeeCity: data.address.city,
+                attendeePhoneNumber: data.phoneNumbers[0].primaryPhone,
+              });
+            });
+          axios.get(
+              import.meta.env.VITE_ROOT_API +
+              `/primarydata/id/${this.attendeeIDs[i]}`)
+            .then((resp) => {
+              let data = resp.data[0];
+              this.eventsClient.push({
+                attendeeID: this.attendeeIDs[i],
+                attendeeName: data.firstName + " " + data.lastName,
                 attendeeCity: data.address.city,
                 attendeePhoneNumber: data.phoneNumbers[0].primaryPhone,
               });
@@ -337,6 +370,31 @@ export default {
         });
       });
     },
+    deleteFromEvent() {
+      this.clientsChosen.forEach((event) => {
+        let apiURL =
+          import.meta.env.VITE_ROOT_API + `/eventdata/deleteAttendee/` + event._id;
+        axios.delete(apiURL, { attendee: this.$route.params.id }).then(() => {
+          this.eventsClient = [];
+          axios
+            .get(
+              import.meta.env.VITE_ROOT_API +
+              `/primarydata/id/${this.attendeeIDs[i]}`
+            )
+            .then((resp) => {
+              let data = resp.data[0];
+              for (let i = 0; i < data.length; i++) {
+                this.eventsClient.push({
+                  attendeeID: this.attendeeIDs[i],
+                  attendeeName: data.firstName + " " + data.lastName,
+                  attendeeCity: data.address.city,
+                  attendeePhoneNumber: data.phoneNumbers[0].primaryPhone,
+                });
+              }
+            });
+        });
+      });
+    },
     editClient(clientID) {
       this.$router.push({ name: "updateclient", params: { id: clientID } });
     },
@@ -352,3 +410,4 @@ export default {
   },
 };
 </script>
+<style src="vue-multiselect/dist/vue-multiselect.css"></style>

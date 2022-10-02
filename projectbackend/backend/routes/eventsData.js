@@ -1,5 +1,3 @@
-
-//example
 const express = require("express");
 const router = express.Router();
 
@@ -121,6 +119,35 @@ router.put("/addAttendee/:id", (req, res, next) => {
             } else {
                 if (data.length == 0) {
                     eventdata.updateOne(
+                        { _id: req.params.id }, 
+                        { $push: { attendees: req.body.attendee } },
+                        (error, data) => {
+                            if (error) {
+                                consol
+                                return next(error);
+                            } else {
+                                res.json(data);
+                            }
+                        }
+                    );
+                }
+                
+            }
+        }
+    );
+    
+});
+
+router.delete("/deleteAttendee/:id", (req, res, next) => {
+    //only add attendee if not yet signed uo
+    eventdata.find( 
+        { _id: req.params.id, attendees: req.body.attendee }, 
+        (error, data) => { 
+            if (error) {
+                return next(error);
+            } else {
+                if (data.length == 0) {
+                    eventdata.deleteOne(
                         { _id: req.params.id }, 
                         { $push: { attendees: req.body.attendee } },
                         (error, data) => {

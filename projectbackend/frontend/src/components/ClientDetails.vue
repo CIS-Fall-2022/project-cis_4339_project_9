@@ -1,13 +1,13 @@
 <script>
 import useVuelidate from "@vuelidate/core";
 import { required, email, alpha, numeric } from "@vuelidate/validators";
-import VueMultiselect from "vue-multiselect";
+import Multiselect from "vue-multiselect";
 import axios from "axios";
 import { DateTime } from "luxon";
 
 export default {
   props: ["id"],
-  components: { VueMultiselect },
+  components: { Multiselect },
   setup() {
     return { v$: useVuelidate({ $autoDirty: true }) };
   },
@@ -129,6 +129,7 @@ export default {
               for (let i = 0; i < data.length; i++) {
                 this.clientEvents.push({
                   eventName: data[i].eventName,
+                  eventDate: data[i].eventDate,
                 });
               }
             });
@@ -382,14 +383,14 @@ export default {
           </div>
 
           <div class="flex flex-col">
-            <label class="typo__label">Select Events to be added</label>
-            <VueMultiselect
+            <label class="typo__label">Select Events to be Added</label>
+            <Multiselect
               class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
               v-model="eventsChosen"
               :options="eventData"
               :multiple="true"
               label="eventName"
-            ></VueMultiselect>
+            ></Multiselect>
             <div class="flex justify-between">
               <button
                 @click="addToEvent"
