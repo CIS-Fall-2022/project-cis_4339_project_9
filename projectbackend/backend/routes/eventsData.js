@@ -65,7 +65,7 @@ router.get("/client/:id", (req, res, next) => {
     );
 });
 
-// POST(CREATE): an endpoint that will insert a new event
+//POST: Create endpoint that will make a new event
 router.post('/', (req, res, next) => {
 
     eventdata.create(req.body, (error, data) => {
@@ -78,19 +78,18 @@ router.post('/', (req, res, next) => {
     });
 });
 
-//PUT
-router.put("/:id", (req, res, next) => {
-    eventdata.findOneAndUpdate(
-        { _id: req.params.id },
-        req.body,
-        (error, data) => {
-            if (error) {
-                return next(error);
-            } else {
-                res.json(data);
-            }
+
+//PUT update API that edits an event information via it's ID
+router.put('/:id', (req, res, next) => {
+    eventdata.findOneAndUpdate({ _id: req.params.id }, { $set: req.body }, (error, data) => {
+        if (error) {
+            return next(error);
         }
-    );
+        else {
+            res.send('Event has been updated');
+            console.log('Event Successfully Updated', data)
+        }
+    })
 });
 
 router.delete("/:id", (req, res, next) => {
