@@ -55,10 +55,21 @@ router.get("/search/", (req, res, next) => {
     );
 });
 
-//GET events for a single client
-router.get("/events/:id", (req, res, next) => { 
-    
+//GET events for which a client is signed up for
+router.get("/client/:id", (req, res, next) => { 
+    eventdata.find( 
+        { attendees: req.params.id }, 
+        (error, data) => { 
+            if (error) {
+                return next(error);
+            } else {
+                res.json(data);
+            }
+        }
+    );
 });
+
+
 
 //POST
 router.post("/", (req, res, next) => { 
@@ -68,7 +79,7 @@ router.post("/", (req, res, next) => {
             if (error) {
                 return next(error);
             } else {
-                res.json(data); 
+                res.send('Client has been created'); 
             }
         }
     );
@@ -86,7 +97,21 @@ router.put("/:id", (req, res, next) => {
             if (error) {
                 return next(error);
             } else {
-                res.json(data);
+                res.send('Client information has been updated');
+            }
+        }
+    );
+});
+
+router.delete("/:id", (req, res, next) => { 
+    primarydata.findOneAndDelete( 
+        { _id: req.params.id }, 
+        req.body,
+        (error, data) => {
+            if (error) {
+                return next(error);
+            } else {
+                res.send('Client has been deleted from the primaryData database');
             }
         }
     );
