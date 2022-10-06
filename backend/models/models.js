@@ -40,10 +40,6 @@ let primaryDataSchema = new Schema({
         zip: {
             type: String,
         },
-        orgdata: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'orgData'
-        }
 }
 }, {
     collection: 'primaryData',
@@ -53,6 +49,10 @@ let primaryDataSchema = new Schema({
 //collection for eventData
 let eventDataSchema = new Schema({
     _id: { type: String, default: uuid.v1 },
+    orgName: {
+        type: String,
+        require: true,
+    },
     eventName: {
         type: String,
         require: true
