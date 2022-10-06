@@ -22,7 +22,7 @@ const routes = [
         path: '/updateclient/:id',
         name: 'updateclient',
         props: true,
-        component: () => import('../components/updateClient.vue')
+        component: () => import('../components/ClientDetails.vue')
     },
     {
         path: '/eventform',
