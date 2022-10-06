@@ -2,7 +2,7 @@ const uuid = require('uuid');
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-//collection for intakeData
+//collection for intakeData (clients)
 let primaryDataSchema = new Schema({
     _id: { type: String, default: uuid.v1 },
     firstName: {
@@ -34,13 +34,17 @@ let primaryDataSchema = new Schema({
             type: String,
             required: true
         },
-        county: {
+        state: {
             type: String,
         },
         zip: {
             type: String,
+        },
+        orgdata: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'orgData'
         }
-    }
+}
 }, {
     collection: 'primaryData',
     timestamps: true
@@ -70,7 +74,7 @@ let eventDataSchema = new Schema({
         city: {
             type: String,
         },
-        county: {
+        state: {
             type: String,
         },
         zip: {
@@ -82,14 +86,32 @@ let eventDataSchema = new Schema({
     },
     attendees: [{
         type: String
-    }]
+    }],
+    orgdata: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'orgData'
+    }
 }, {
     collection: 'eventData'
 });
 
+//collection for OrganizationData
+let orgDataSchema = new Schema({
+    _id: { type: String, default: uuid.v1},
+    OrgName: {
+        type: String,
+        require: true
+    }
+}, {
+    collection: 'orgData'   
+});
+
+
 // create models from mongoose schemas
 const primarydata = mongoose.model('primaryData', primaryDataSchema);
 const eventdata = mongoose.model('eventData', eventDataSchema);
+const orgdata = mongoose.model('orgData', orgDataSchema);
+
 
 // package the models in an object to export 
-module.exports = { primarydata, eventdata }
+module.exports = { primarydata, eventdata, orgdata }
