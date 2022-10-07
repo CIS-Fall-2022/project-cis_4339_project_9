@@ -1,3 +1,8 @@
+# Group 9 Project Repo
+Ryan Delgado
+Madison Fletcher
+Anthony Laymond
+
 # Data Platform Project Setup
 
 Requirements:
