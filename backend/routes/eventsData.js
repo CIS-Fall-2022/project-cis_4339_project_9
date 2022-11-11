@@ -248,7 +248,7 @@ router.delete("/deleteAttendee/:id", (req, res, next) => {
             if (error) {
                 return next(error);
             } else {
-                if (data.length == 0) {
+                if (data.length != 0) {
                     eventdata.deleteOne(
                         { _id: req.params.id }, 
                         { $push: { attendees: req.body.attendee } },
