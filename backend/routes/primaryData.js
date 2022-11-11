@@ -117,4 +117,32 @@ router.delete("/:id", (req, res, next) => {
     );
 });
 
+router.delete("/deleteAttendee/:id", (req, res, next) => {
+    eventdata.find( 
+        { _id: req.params.id, attendees: req.body.attendee }, 
+        (error, data) => { 
+            if (error) {
+                return next(error);
+            } else {
+                if (data.length != 0) {
+                    eventdata.deleteOne(
+                        { _id: req.params.id }, 
+                        { $push: { attendees: req.body.attendee } },
+                        (error, data) => {
+                            if (error) {
+                                consol
+                                return next(error);
+                            } else {
+                                res.json(data);
+                            }
+                        }
+                    );
+                }
+                
+            }
+        }
+    );
+    
+});
+
 module.exports = router;
