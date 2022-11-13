@@ -46,5 +46,5 @@ validations() {
     };
   }
 } 
-    
+    // ignore comment
 </script>
