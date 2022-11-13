@@ -134,7 +134,7 @@ router.get("/search/", (req, res, next) => {
     );
 });
 
-//GET events for which a client is signed up for
+//GET events clients for an event
 router.get("/client/:id", (req, res, next) => { 
     eventdata.find( 
         { attendees: req.params.id }, 
@@ -212,6 +212,7 @@ router.put("/addAttendee/:id", (req, res, next) => {
                                 return next(error);
                             } else {
                                 res.json(data);
+                                console.log('Client sucessfully added to event');
                             }
                         }
                     );
@@ -241,14 +242,13 @@ router.delete("/:id", (req, res, next) => {
 
 //Delete that will remove an attendee from the event
 router.delete("/deleteAttendee/:id", (req, res, next) => {
-    //only add attendee if not yet signed u
     eventdata.find( 
         { _id: req.params.id, attendees: req.body.attendee }, 
         (error, data) => { 
             if (error) {
                 return next(error);
             } else {
-                if (data.length != 0) {
+                if (data.length == 1) {
                     eventdata.deleteOne(
                         { _id: req.params.id }, 
                         { $pull: { attendees: req.body.attendee } },
@@ -262,7 +262,6 @@ router.delete("/deleteAttendee/:id", (req, res, next) => {
                         }
                     );
                 }
-                
             }
         }
     );
