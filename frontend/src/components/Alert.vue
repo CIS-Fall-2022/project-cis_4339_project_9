@@ -30,6 +30,21 @@
       this.errors.username = JSON.stringify(response.errors.username).replace(/\"/g, "");
     }
   }
-}     
+},
+validations() {
+    return {
+      client: {
+        firstName: { required, alpha },
+        lastName: { required, alpha },
+        email: { email },
+        phoneNumbers: [
+          {
+            primaryPhone: { required, numeric },
+          },
+        ],
+      },
+    };
+  }
+} 
     
 </script>
