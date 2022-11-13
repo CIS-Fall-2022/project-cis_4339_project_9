@@ -119,6 +119,7 @@ export default {
           import.meta.env.VITE_ROOT_API + `/eventdata/addAttendee/` + event._id;
         axios.put(apiURL, { attendee: this.$route.params.id }).then(() => {
           this.clientEvents = [];
+          alert("Client has been added to the event.");
           axios
             .get(
               import.meta.env.VITE_ROOT_API +
