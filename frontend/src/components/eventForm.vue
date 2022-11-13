@@ -234,7 +234,7 @@ export default {
         axios
           .post(apiURL, this.event)
           .then(() => {
-            alert("Event has been added.");
+            alert(this.event.eventName + " has been added.");
             this.$router.push("/findEvents");
             this.client = {
               eventName: "",

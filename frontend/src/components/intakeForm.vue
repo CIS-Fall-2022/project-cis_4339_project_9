@@ -42,7 +42,7 @@ export default {
         axios
           .post(apiURL, this.client)
           .then(() => {
-            alert("Client has been succesfully added.");
+            alert(this.client.firstName + ' ' + this.client.lastName + " has been succesfully added.");
             this.$router.push("/findclient");
             this.client = {
               firstName: "",
