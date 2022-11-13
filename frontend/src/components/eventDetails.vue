@@ -365,9 +365,9 @@ export default {
       });
     },
     deleteFromEvent() {
-      this.clientsChosen.forEach((attendeeIDs) => {
+      this.clientsChosen.forEach((event) => {
         let apiURL =
-          import.meta.env.VITE_ROOT_API + `/eventdata/deleteAttendee/` + attendeeIDs.id;
+          import.meta.env.VITE_ROOT_API + `/eventdata/deleteAttendee/` + event._id;
         axios.delete(apiURL, { attendee: this.$route.params.id }).then(() => {
           this.eventsClient = [];
           axios
