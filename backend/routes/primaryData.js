@@ -117,15 +117,15 @@ router.delete("/:id", (req, res, next) => {
     );
 });
 
-router.delete("/deleteAttendee/:id", (req, res, next) => {
+router.put("/deleteAttendee/:id", (req, res, next) => {
     eventdata.find( 
-        { _id: req.params.id, attendees: req.body.attendee }, 
+        { _id: req.params.attendee, attendees: req.body.attendee }, 
         (error, data) => { 
             if (error) {
                 return next(error);
             } else {
                 if (data.length != 0) {
-                    eventdata.deleteOne(
+                    eventdata.updateOne( 
                         { _id: req.params.id }, 
                         { $pull: { attendees: req.body.attendee } },
                         (error, data) => {
@@ -134,6 +134,35 @@ router.delete("/deleteAttendee/:id", (req, res, next) => {
                                 return next(error);
                             } else {
                                 res.json(data);
+                                console.log('Client sucessfully deleted from the event');
+                            }
+                        }
+                    );
+                }
+                
+            }
+        }
+    );
+    
+});
+
+router.delete("/deleteAttendee/:id", (req, res, next) => {
+    eventdata.find( 
+        { attendees: req.params.attendee }, 
+        (error, data) => { 
+            if (error) {
+                return next(error);
+            } else {
+                if (data.length != 0) {
+                    eventdata.deleteOne( 
+                        { attendees: req.params.attendee }, 
+                        (error, data) => {
+                            if (error) {
+                                consol
+                                return next(error);
+                            } else {
+                                res.json(data);
+                                console.log('Client sucessfully deleted from the event');
                             }
                         }
                     );

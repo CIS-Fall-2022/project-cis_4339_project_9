@@ -240,33 +240,6 @@ router.delete("/:id", (req, res, next) => {
     );
 });
 
-//Delete that will remove an attendee from the event
-router.delete("/deleteAttendee/:id", (req, res, next) => {
-    eventdata.find( 
-        { _id: req.params.id, attendees: req.body.attendee }, 
-        (error, data) => { 
-            if (error) {
-                return next(error);
-            } else {
-                if (data.length == 1) {
-                    eventdata.deleteOne(
-                        { _id: req.params.id }, 
-                        { $pull: { attendees: req.body.attendee } },
-                        (error, data) => {
-                            if (error) {
-                                consol
-                                return next(error);
-                            } else {
-                                res.json(data);
-                            }
-                        }
-                    );
-                }
-            }
-        }
-    );
-    
-});
 
 
 module.exports = router;
