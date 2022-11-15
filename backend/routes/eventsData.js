@@ -216,8 +216,9 @@ router.put("/addAttendee/:id", (req, res, next) => {
                             }
                         }
                     );
+                }  else {
+                    res.send("Client already added to the event.");
                 }
-                
             }
         }
     );
