@@ -1,28 +1,28 @@
 <template>
   <div>
     <!-- canvas element for chart -->
-    <canvas id="planet-chart"></canvas>
+    <canvas id="event-chart"></canvas>
   </div>
 </template>
 
 
 <script>
 import { Chart, registerables } from 'chart.js'
-import planetChartData from '../assets/planet-data.js'
+import eventChartData from '../assets/event-data.js'
 
 //we have to register the registerables with Chart object
 Chart.register(...registerables);
 export default {
-  name: 'PlanetChart',
+  name: 'EventChart',
   data() {
     return {
-      planetChartData: planetChartData
+      eventChartData: eventChartData
     }
   },
   //establish Chart object after mounting the component
   mounted() {
-    const ctx = document.getElementById('planet-chart');
-    new Chart(ctx, this.planetChartData);
+    const ctx = document.getElementById('event-chart');
+    new Chart(ctx, this.eventChartData);
   }
 }
 </script>
