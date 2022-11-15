@@ -3,8 +3,8 @@
     <h1>Chart Examples</h1>
     <div class="columns">
       <div class="column">
-        <h3>Planet Chart Demo</h3>
-        <PlanetChart />
+        <h3>Number of People that attended Events</h3>
+        <EventChart />
       </div>
       <div class="column">
         <h3>Bar Chart - Receiving Data from backend</h3>
@@ -52,12 +52,12 @@
 
 <script>
 import axios from "axios";
-import PlanetChart from "@/components/PlanetChart.vue";
+import EventChart from "@/components/EventChart.vue";
 import EnrollmentBar from "@/components/BarChartComponent.vue";
 
 export default {
   components: {
-    PlanetChart,
+    EventChart,
     EnrollmentBar,
   },
   data() {
@@ -73,10 +73,10 @@ export default {
       try {
         this.error = null;
         this.loading = true;
-        const url = `http://localhost:3001/enrollment`;
+        const url = `http://localhost:3000/enrollment`;
         const response = await axios.get(url);
         //"re-organizing" - mapping json from the response
-        this.labels = response.data.map((item) => item.course);
+        this.labels = response.data.map((item) => item.courseNumber);
         this.enrolled = response.data.map((item) => item.enrollment);
       } catch (err) {
         if (err.response) {
