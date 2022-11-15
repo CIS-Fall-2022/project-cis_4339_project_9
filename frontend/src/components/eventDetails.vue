@@ -300,6 +300,7 @@ export default {
         description: "",
       },
       eventsClient: [],
+      clientsRemoved: [],
     };
   },
   beforeMount() {
@@ -309,6 +310,7 @@ export default {
       )
       .then((resp) => {
         let data = resp.data[0];
+        this.event.id = data._id;
         this.event.eventName = data.eventName;
         console.log(data.date);
         this.event.date = DateTime.fromISO(data.date).plus({ days: 1 }).toISODate();
@@ -365,29 +367,40 @@ export default {
       });
     },
     deleteFromEvent() {
-      this.clientsChosen.forEach((event) => {
+      for (let i = 0; i < this.clientsChosen.length; i++) {
+      this.clientsChosen.forEach((client) => {
         let apiURL =
-          import.meta.env.VITE_ROOT_API + `/eventdata/deleteAttendee/` + event._id;
-        axios.delete(apiURL, { attendee: this.$route.params.id }).then(() => {
+          import.meta.env.VITE_ROOT_API + `/primarydata/deleteAttendee/${this.id}`;
+        axios.put(apiURL, { attendee: this.clientsChosen[i]["attendeeID"]}).then(() => {
           this.eventsClient = [];
+          alert("Client has been deleted from " + this.event.eventName);
           axios
           .get(
-              import.meta.env.VITE_ROOT_API +
-                `/primarydata/id/${this.attendeeIDs[i]}`
+            import.meta.env.VITE_ROOT_API + `/eventdata/id/${this.$route.params.id}`
             )
-            .then((resp) => {
-              let data = resp.data[0];
-              for (let i = 0; i < data.length; i++) {
+          .then((resp) => {
+            let data = resp.data[0];
+            this.attendeeIDs = data.attendees;
+            for (let i = 0; i < this.attendeeIDs.length; i++) {
+            axios
+              .get(
+                import.meta.env.VITE_ROOT_API +
+                  `/primarydata/id/${this.attendeeIDs[i]}`
+              )
+              .then((resp) => {
+                let data = resp.data[0];
                 this.eventsClient.push({
                   attendeeID: this.attendeeIDs[i],
                   attendeeName: data.firstName + " " + data.lastName,
                   attendeeCity: data.address.city,
                   attendeePhoneNumber: data.phoneNumbers[0].primaryPhone,
                 });
-              }
-            });
+              }); 
+           }
+          });
         });
       });
+      }
     },
     editClient(clientID) {
       this.$router.push({ name: "updateclient", params: { id: clientID } });
