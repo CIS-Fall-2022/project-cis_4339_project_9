@@ -24,7 +24,7 @@ export default {
         datasets: [
           {
             label: "Enrollment",
-            backgroundColor: "rgba(144,238,144 , 0.9 )",
+            backgroundColor: "rgba(0,0,255 , 0.7 )",
             data: this.chartData,
           },
         ],
