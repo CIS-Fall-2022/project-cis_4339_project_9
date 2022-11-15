@@ -119,7 +119,7 @@ router.delete("/:id", (req, res, next) => {
 
 router.put("/deleteAttendee/:id", (req, res, next) => {
     eventdata.find( 
-        { _id: req.params.attendee, attendees: req.body.attendee }, 
+        { _id: req.params.id, attendees: req.body.attendee }, 
         (error, data) => { 
             if (error) {
                 return next(error);
@@ -167,7 +167,6 @@ router.delete("/deleteAttendee/:id", (req, res, next) => {
                         }
                     );
                 }
-                
             }
         }
     );
