@@ -2,20 +2,20 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const uuid = require('uuid');
 
-let enrollmentSchema = new Schema({
+let participationSchema = new Schema({
     //demonstrating on how to use uuid to generate _id  
     _id: {
       type: String,
       default: uuid.v1
     },
-    enrollment: {
+    participants: {
       type: Number
     },
-    courseNumber: {
+    monthName: {
       type: String,
     }
   }, {
-    collection: 'enrollment'
+    collection: 'participation'
 });
 
-module.exports = mongoose.model('EnrollmentModel', enrollmentSchema)
+module.exports = mongoose.model('ParticipationModel', participationSchema)
