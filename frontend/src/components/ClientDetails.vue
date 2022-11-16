@@ -127,15 +127,15 @@ export default {
               alert(this.client.firstName + ' ' + this.client.lastName + " has been added to the event."); 
             axios
               .get(
-                import.meta.env.VITE_ROOT_API +                 
-                  `/eventdata/client/${this.$route.params.id}
+                import.meta.env.VITE_ROOT_API +                 // this is grabbing the specific route from the back end // this information contains all the event data that the client has signed up for
+                  `/eventdata/client/${this.$route.params.id} // this information contains all the event data that the client has signed for
               )
-              .then((resp) => {            
+              .then((resp) => {            // response for the data
                 let data = resp.data;
                 for (let i = 0; i < data.length; i++) {
                   this.clientEvents.push({                 
-                    eventName: data[i].eventName,      
-                    eventDate: data[i].eventDate,
+                    eventName: data[i].eventName,     //this "posts" the information into a list to display the eventName entries done by the client
+                    eventDate: data[i].eventDate,     //this "posts" the information into a list, displaying the event dates.
                   });
                 }
               });
