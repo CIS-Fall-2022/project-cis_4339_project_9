@@ -17,87 +17,8 @@ router.get("/", (req, res, next) => {
     ).sort({ 'updatedAt': -1 }).limit(10);
 });
 
-//Mongo Db Atlas Chart Information:
-//https://www.mongodb.com/products/charts
-//https://www.youtube.com/watch?v=mHanesMLPmw
-//Get request that will show the JSON formatted return of Atlas chart data
-//use aggregate function to show the return--don't know how to do this in Vue yet
-//router first
-router.get("/atlaschart", (req, res, next) => {
-    //constant that will hold the JSON return
-    const chart = [
-        {
-            "$addFields": {
-              "__alias_0": {
-                "$cond": {
-                  "if": {
-                    "$isArray": "$attendees"
-                  },
-                  "then": {
-                    "$size": "$attendees"
-                  },
-                  "else": 0
-                }
-              }
-            }
-          },
-          {
-            "$group": {
-              "_id": {
-                "__alias_1": "$eventName"
-              },
-              "__alias_0": {
-                "$sum": "$__alias_0"
-              }
-            }
-          },
-          {
-            "$project": {
-              "_id": 0,
-              "__alias_1": "$_id.__alias_1",
-              "__alias_0": 1
-            }
-          },
-          {
-            "$project": {
-              "x": "$__alias_0",
-              "y": "$__alias_1",
-              "_id": 0
-            }
-          },
-          {
-            "$addFields": {
-              "__agg_sum": {
-                "$sum": [
-                  "$x"
-                ]
-              }
-            }
-          },
-          {
-            "$sort": {
-              "__agg_sum": -1
-            }
-          },
-          {
-            "$project": {
-              "__agg_sum": 0
-            }
-          },
-          {
-            "$limit": 5000
-          }
-    ];
 
-    //return the JSON data
-    eventdata.aggregate(chart).exec((error, data) => {
-        if (error) {
-            return next(error)
-        } else {
-            res.json(data)
-        }
-    })
-});
+
 
 
 //GET single entry by ID
