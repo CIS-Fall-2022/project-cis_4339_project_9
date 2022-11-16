@@ -116,7 +116,7 @@ export default {
     },
     addToEvent() {
       this.eventsChosen.forEach((event) => {                    // This is going through the events that the client has chosen to be added to the specified client
-        for (let i = 0; i < this.clientEvents.length; i++) {   
+        for (let i = 0; i < this.clientEvents.length; i++) {    // the for loop then goes through the client events array which contains the events that the client has signed up for
           if (this.clientEvents[i]["eventID"] == event._id) {   
             alert("ERROR! This client has already been added to the event."); 
           } else { 
