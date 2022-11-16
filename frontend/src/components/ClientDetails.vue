@@ -133,7 +133,7 @@ export default {
               .then((resp) => {            // response for the data
                 let data = resp.data;
                 for (let i = 0; i < data.length; i++) {
-                  this.clientEvents.push({                 
+                  this.clientEvents.push({                 //using an axios tool, this prompt a proper push of the client events info, triggered by a response.
                     eventName: data[i].eventName,     //this "posts" the information into a list to display the eventName entries done by the client
                     eventDate: data[i].eventDate,     //this "posts" the information into a list, displaying the event dates.
                   });
