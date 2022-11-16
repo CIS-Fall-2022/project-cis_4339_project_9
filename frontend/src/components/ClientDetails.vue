@@ -115,26 +115,26 @@ export default {
       });
     },
     addToEvent() {
-      this.eventsChosen.forEach((event) => {
-        for (let i = 0; i < this.clientEvents.length; i++) {
-          if (this.clientEvents[i]["eventID"] == event._id) {
-            alert("ERROR! This client has already been added to the event.");
-          } else {
+      this.eventsChosen.forEach((event) => {                    // This is going through the events that the client has chosen to be added to the specified client
+        for (let i = 0; i < this.clientEvents.length; i++) {   
+          if (this.clientEvents[i]["eventID"] == event._id) {   
+            alert("ERROR! This client has already been added to the event."); 
+          } else { 
             let apiURL =
-            import.meta.env.VITE_ROOT_API + `/eventdata/addAttendee/` + event._id;
-            axios.put(apiURL, { attendee: this.$route.params.id }).then(() => {
-              this.clientEvents = [];
-              alert(this.client.firstName + ' ' + this.client.lastName + " has been added to the event.");
+            import.meta.env.VITE_ROOT_API + `/eventdata/addAttendee/` + event._id; 
+            axios.put(apiURL, { attendee: this.$route.params.id }).then(() => { 
+              this.clientEvents = [];                                                
+              alert(this.client.firstName + ' ' + this.client.lastName + " has been added to the event."); 
             axios
               .get(
-                import.meta.env.VITE_ROOT_API +
-                  `/eventdata/client/${this.$route.params.id}`
+                import.meta.env.VITE_ROOT_API +                 
+                  `/eventdata/client/${this.$route.params.id}
               )
-              .then((resp) => {
+              .then((resp) => {            
                 let data = resp.data;
                 for (let i = 0; i < data.length; i++) {
-                  this.clientEvents.push({
-                    eventName: data[i].eventName,
+                  this.clientEvents.push({                 
+                    eventName: data[i].eventName,      
                     eventDate: data[i].eventDate,
                   });
                 }
