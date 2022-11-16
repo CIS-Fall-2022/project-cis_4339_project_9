@@ -2,6 +2,8 @@
 Ryan Delgado
 Madison Fletcher
 Anthony Laymond
+# Please Note:
+The Folders "Backend" and "Frontend" are Backend1 and Backend2
 
 # Data Platform Project Setup
 
