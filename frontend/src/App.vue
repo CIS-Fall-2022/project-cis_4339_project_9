@@ -8,7 +8,7 @@
         <nav class="mt-10">
           <ul class="flex flex-col gap-4">
             <li>
-              <router-link to="/">
+              <router-link to="/chart">
                 <span style="position: relative; top: 6px" class="material-icons">dashboard</span>
                 Dashboard
               </router-link>
@@ -37,12 +37,6 @@
                 Find Event
               </router-link>
             </li>
-            <li>
-              <router-link to="/chart">
-                <span style="position: relative; top: 6px" class="material-icons">search</span>
-                Show Charts
-              </router-link>
-            </li>
           </ul>
         </nav>
       </header>
@@ -54,7 +48,7 @@
           background: linear-gradient(250deg, #C8102E 70%, #efecec 50.6%);
         "
       >
-        <h1 class="mr-20 text-3xl text-white">Dataplatform</h1>
+        <h1 class="mr-20 text-3xl text-white">Organization Alpha</h1>
       </section>
       <div>
         <router-view></router-view>
