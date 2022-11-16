@@ -118,11 +118,11 @@ export default {
       this.eventsChosen.forEach((event) => {                    // This is going through the events that the client has chosen to be added to the specified client
         for (let i = 0; i < this.clientEvents.length; i++) {    // the for loop then goes through the client events array which contains the events that the client has signed up for
           if (this.clientEvents[i]["eventID"] == event._id) {   // if this event id in the client events array equals the event id of the event that the user has chosen
-            alert("ERROR! This client has already been added to the event."); 
+            alert("ERROR! This client has already been added to the event."); // This verifies that the client has already been added into the array of events
           } else { 
             let apiURL =
-            import.meta.env.VITE_ROOT_API + `/eventdata/addAttendee/` + event._id; 
-            axios.put(apiURL, { attendee: this.$route.params.id }).then(() => { 
+            import.meta.env.VITE_ROOT_API + `/eventdata/addAttendee/` + event._id; // this will import code from back end from the specific route info. 
+            axios.put(apiURL, { attendee: this.$route.params.id }).then(() => {  //then add attendees are added the event pulling from the link.
               this.clientEvents = [];                                                
               alert(this.client.firstName + ' ' + this.client.lastName + " has been added to the event."); 
             axios
