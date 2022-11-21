@@ -72,7 +72,7 @@ export default {
       )
       .then((resp) => {
         let data = resp.data;
-        resp.data.forEach((event) => {
+        data.forEach((event) => {
           this.clientEvents.push({
             eventID: event._id,
             eventName: event.eventName,
@@ -115,30 +115,54 @@ export default {
     },
     addToEvent() {
       this.eventsChosen.forEach((event) => {
-        for (let i = 0; i < this.clientEvents.length; i++) {
-          if (this.clientEvents[i]["eventID"] == event._id) {
-            alert("ERROR! This client has already been added to the event.");
-          } else {
+        for (let i = 0; i < 1; i++) {
+          if (this.clientEvents.length == 0) {
             let apiURL =
-            import.meta.env.VITE_ROOT_API + `/eventdata/addAttendee/` + event._id;
-            axios.put(apiURL, { attendee: this.$route.params.id }).then(() => {
-              this.clientEvents = [];
-              alert(this.client.firstName + ' ' + this.client.lastName + " has been added to the event.");
-            axios
-              .get(
-                import.meta.env.VITE_ROOT_API +
-                  `/eventdata/client/${this.$route.params.id}`
-              )
-              .then((resp) => {
-                let data = resp.data;
-                for (let i = 0; i < data.length; i++) {
-                  this.clientEvents.push({
-                    eventName: data[i].eventName,
-                    eventDate: data[i].eventDate,
-                  });
-                }
+              import.meta.env.VITE_ROOT_API + `/eventdata/addAttendee/` + event._id;
+              axios.put(apiURL, { attendee: this.$route.params.id }).then(() => {
+                this.clientEvents = [];
+                alert(this.client.firstName + ' ' + this.client.lastName + " has been added to the event.");
+              axios
+                .get(
+                  import.meta.env.VITE_ROOT_API +
+                    `/eventdata/client/${this.$route.params.id}`
+                )
+                .then((resp) => {
+                  let data = resp.data;
+                  for (let i = 0; i < data.length; i++) {
+                    this.clientEvents.push({
+                      eventName: data[i].eventName,
+                      eventDate: data[i].eventDate,
+                    });
+                  }
+                });
               });
-            });
+              console.log(this.clientEvents);
+          } else {
+            if (this.clientEvents[i]["eventID"] == event._id) {
+              alert("ERROR! This client has already been added to the event.");
+            } else {
+              let apiURL =
+              import.meta.env.VITE_ROOT_API + `/eventdata/addAttendee/` + event._id;
+              axios.put(apiURL, { attendee: this.$route.params.id }).then(() => {
+                this.clientEvents = [];
+                alert(this.client.firstName + ' ' + this.client.lastName + " has been added to the event.");
+              axios
+                .get(
+                  import.meta.env.VITE_ROOT_API +
+                    `/eventdata/client/${this.$route.params.id}`
+                )
+                .then((resp) => {
+                  let data = resp.data;
+                  for (let i = 0; i < data.length; i++) {
+                    this.clientEvents.push({
+                      eventName: data[i].eventName,
+                      eventDate: data[i].eventDate,
+                    });
+                  }
+                });
+              });
+            }
           }
         }
       });
