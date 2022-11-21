@@ -103,7 +103,7 @@ router.put("/:id", (req, res, next) => {
 });
 
 ///DELETE primaryData
-router.delete("/id/:id", (req, res, next) => {
+router.delete("/:id", (req, res, next) => {
     primarydata.deleteOne({ _id: req.params.id, organization_id: process.env.ORGANIZATION},
          (error, data) => {
         if (error) {
